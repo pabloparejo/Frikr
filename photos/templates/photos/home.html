@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title>Welcome to Frikr - Like Flikr but frikier!</title>
+</head>
+<body>
+    <h1>Welcome to Frikr</h1>
+    <p>Frikr is like Flikr but frikier!</p>
+    <p>Mi nombre es {{ user.first_name }} {{ user.last_name}}</p>
+    {% if photos|length > 0 %}
+        <h2>Latest photos</h2>
+        {% for photo in photos %}
+        <div style="display:inline-block;">
+            <h3>{{photo.name}}</h3>
+            <img src="{{photo.url}}" title="{{photo.name}}" alt="{{photo.description}}" height="200"/>
+        </div>
+        {% endfor %}
+    {% endif %}
+
+</body>
+</html>
