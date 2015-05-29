@@ -2,9 +2,16 @@
 <html>
 <head lang="en">
     <meta charset="UTF-8">
-    <title></title>
+    <title>{% block title %}Welcome to Frikr - Like Flikr but frikier!{% endblock %}</title>
 </head>
 <body>
+    {% include 'photos/menu.html' %}
 
+    {% block content %}
+    {% endblock %}
+    <hr/>
+    <footer>
+        Frikr Inc. &copy; 2015
+    </footer>
 </body>
 </html>

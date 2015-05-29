@@ -1,30 +1,16 @@
 #encoding:utf-8
 from django.contrib.auth.models import User
-
+from django.conf import settings
 from django.db import models
 # Create your models here.
 
+LICENSES = getattr(settings, 'LICENSES', ())
+DEFAULT_LICENSES = getattr(settings, 'DEFAULT_LICENSES', ())
+
+VISIBILITY = getattr(settings, 'VISIBILITY', ())
+DEFAULT_VISIBILITY = getattr(settings, 'DEFAULT_VISIBILITY', ())
 
 class Photo(models.Model):
-    ## COPYRIGHT CONSTS
-    COPYRIGHT = 'RIG'
-    COPYLEFT = 'LEF'
-    CREATIVE_COMMONS = 'CC'
-
-    LICENSES = (
-        (COPYRIGHT, 'Copyright'),
-        (COPYLEFT, 'CopyLeft'),
-        (CREATIVE_COMMONS, 'Creative Commons'),
-    )
-
-    ## VISIBILITY CONSTS
-    PUBLIC = 'PUB'
-    PRIVATE = "PRI"
-
-    VISIBILITY = (
-        (PUBLIC, 'Public'),
-        (PRIVATE, 'Private'),
-    )
 
     owner = models.ForeignKey(User)
 

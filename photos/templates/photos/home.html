@@ -1,11 +1,6 @@
-<!DOCTYPE html>
-<html>
-<head lang="en">
-    <meta charset="UTF-8">
-    <title>Welcome to Frikr - Like Flikr but frikier!</title>
-</head>
-<body>
-    {% include 'photos/menu.html' %}
+{% extends 'photos/base.html' %}
+
+{% block content %}
     <h1>Welcome to Frikr</h1>
     <p>Frikr is like Flikr but frikier!</p>
     <p>Mi nombre es {{ user.first_name }} {{ user.last_name}}</p>
@@ -21,6 +16,4 @@
         </div>
         {% endfor %}
     {% endif %}
-
-</body>
-</html>
+{% endblock content %}

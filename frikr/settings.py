@@ -101,3 +101,32 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/1.8/howto/static-files/
 
 STATIC_URL = '/static/'
+
+
+# Photos App Settings
+
+## COPYRIGHT CONSTS
+APACHE = "Av2"
+COPYRIGHT = 'RIG'
+COPYLEFT = 'LEF'
+CREATIVE_COMMONS = 'CC'
+
+LICENSES = (
+    (APACHE, 'Apache License v2.0'),
+    (COPYRIGHT, 'Copyright'),
+    (COPYLEFT, 'CopyLeft'),
+    (CREATIVE_COMMONS, 'Creative Commons'),
+)
+
+DEFAULT_LICENSE = CREATIVE_COMMONS
+
+## VISIBILITY CONSTS
+PUBLIC = 'PUB'
+PRIVATE = "PRI"
+
+VISIBILITY = (
+    (PUBLIC, 'Public'),
+    (PRIVATE, 'Private'),
+)
+
+DEFAULT_VISIBILITY = PUBLIC
