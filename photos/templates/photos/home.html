@@ -5,6 +5,7 @@
     <title>Welcome to Frikr - Like Flikr but frikier!</title>
 </head>
 <body>
+    {% include 'photos/menu.html' %}
     <h1>Welcome to Frikr</h1>
     <p>Frikr is like Flikr but frikier!</p>
     <p>Mi nombre es {{ user.first_name }} {{ user.last_name}}</p>
@@ -13,7 +14,9 @@
         {% for photo in photos %}
         <div style="display:inline-block;">
             <h3>{{photo.name}}</h3>
-            <img src="{{photo.url}}" title="{{photo.name}}" alt="{{photo.description}}" height="200"/>
+            <a href="{% url 'photo_detail' photo.pk%}">
+                <img src="{{photo.url}}" title="{{photo.name}}" alt="{{photo.description}}" height="200"/>
+            </a>
             <p>Author: {{photo.owner}}</p>
         </div>
         {% endfor %}
