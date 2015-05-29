@@ -6,6 +6,6 @@ from photos.models import Photo
 
 
 def home(request):
-    photos = Photo.objects.all()
-    context = {"photos": photos}
+    photos = Photo.objects.all().order_by("-created_on")
+    context = {"photos": photos[:4]}
     return render(request, "photos/home.html", context)
