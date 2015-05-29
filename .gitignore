@@ -6,6 +6,9 @@ __pycache__/
 # C extensions
 *.so
 
+.idea/*
+
+
 # Distribution / packaging
 .Python
 venv/
@@ -56,3 +59,4 @@ docs/_build/
 
 # PyBuilder
 target/
+*.sqlite3
