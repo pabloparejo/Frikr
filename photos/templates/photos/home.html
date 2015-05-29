@@ -14,7 +14,7 @@
         {% for photo in photos %}
         <div style="display:inline-block;">
             <h3>{{photo.name}}</h3>
-            <a href="{% url 'photo_detail' photo.pk%}">
+            <a href="{% url 'photo_detail' photo.pk photo.name|slugify%}">
                 <img src="{{photo.url}}" title="{{photo.name}}" alt="{{photo.description}}" height="200"/>
             </a>
             <p>Author: {{photo.owner}}</p>
