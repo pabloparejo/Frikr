@@ -14,6 +14,7 @@
         <div style="display:inline-block;">
             <h3>{{photo.name}}</h3>
             <img src="{{photo.url}}" title="{{photo.name}}" alt="{{photo.description}}" height="200"/>
+            <p>Author: {{photo.owner}}</p>
         </div>
         {% endfor %}
     {% endif %}
