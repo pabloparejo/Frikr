@@ -1,0 +1,13 @@
+{% extends 'photos/base.html' %}
+
+{% block content %}
+    <h1>Add new photo</h1>
+    {% if message %}
+        <p style="color:green;">{{message|safe}}</p>
+    {% endif %}
+    <form action="" method="post">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <input type="submit" value="Añadir"/>
+    </form>
+{% endblock content %}
