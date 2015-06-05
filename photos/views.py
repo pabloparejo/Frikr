@@ -1,5 +1,8 @@
-from django.http import HttpResponse, HttpResponseNotFound
-from django.shortcuts import render
+#encoding:utf-8
+from django.http import HttpResponse, HttpResponseNotFound, HttpResponseRedirect
+from django.shortcuts import render, redirect
+
+from django.contrib.auth import logout as django_logout, login as django_login, authenticate
 
 from photos.models import Photo
 from frikr.settings import PUBLIC # this is not a good idea!
@@ -34,3 +37,28 @@ def photo_detail(request, pk):
         return render(request, 'photos/photo_detail.html', context)
     except Photo.DoesNotExist:
         return HttpResponseNotFound('Ooops! photo not found')
+
+
+def login(request):
+    context = {}
+    if request.method.upper() == "POST":
+        username = request.POST.get('username', None)
+        password = request.POST.get('password', None)
+        user = authenticate(username=username, password=password)
+
+        if user:
+            if user.is_active:
+                django_login(request, user)
+                return redirect("home")
+            else:
+                context["errors"] = 'Su usuario no está activo'
+        else:
+            context["errors"] = 'Usuario o contraseña incorrectos'
+
+    return render(request, "photos/login.html", context)
+
+def logout(request):
+    if request.user.is_authenticated():
+        django_logout(request)
+
+    return redirect("/")

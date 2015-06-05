@@ -19,8 +19,8 @@ class Photo(models.Model):
     description = models.TextField(blank=True, null=True)
     created_on = models.DateTimeField(auto_now_add=True)    # Sets datetime automatically when created
     modified_on = models.DateTimeField(auto_now=True)       # Sets datetime automatically when it is saved
-    license = models.CharField(max_length=3, choices=LICENSES, default=CREATIVE_COMMONS)
-    visibility = models.CharField(max_length=3, choices=VISIBILITY, default=PUBLIC)
+    license = models.CharField(max_length=3, choices=LICENSES, default=DEFAULT_LICENSES)
+    visibility = models.CharField(max_length=3, choices=VISIBILITY, default=DEFAULT_VISIBILITY)
 
     def __unicode__(self):
         return self.name

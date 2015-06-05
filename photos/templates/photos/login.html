@@ -1,0 +1,14 @@
+{% extends 'photos/base.html' %}
+
+{% block content %}
+    <h1>Login to Frikr</h1>
+    {% if errors %}
+        <p style="color:red;">{{errors}}</p>
+    {% endif %}
+    <form action="" method="post">
+        {% csrf_token %}
+        <input type="text" name="username" placeholder="User"/>
+        <input type="password" name="password" placeholder="Pass"/>
+        <input type="submit" value="Login"/>
+    </form>
+{% endblock content %}
