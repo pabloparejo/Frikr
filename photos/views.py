@@ -1,5 +1,6 @@
 #encoding:utf-8
 from django.contrib.auth.decorators import login_required
+from django.db.models import Q
 from django.http import HttpResponse, HttpResponseNotFound, HttpResponseRedirect
 from django.shortcuts import render, redirect
 from django.core.urlresolvers import reverse
@@ -8,7 +9,7 @@ from django.contrib.auth import logout as django_logout, login as django_login, 
 from django.utils.decorators import method_decorator
 from photos.forms import LoginForm, PhotoFrom
 
-from django.views.generic import View
+from django.views.generic import View, ListView
 
 from photos.models import Photo
 from frikr.settings import PUBLIC # this is not a good idea!
@@ -128,3 +129,19 @@ class LoginView(View):
 
         return render(request, "photos/login.html", context)
 
+
+class PhotoList(ListView):
+
+    model = Photo
+
+    def get_queryset(self):
+        user = self.request.user
+
+        if user.is_anonymous():
+            return Photo.objects.filter(visibility=PUBLIC)
+        elif user.is_staff:
+            return Photo.objects.all()
+        else:
+            return Photo.objects.filter(Q(owner=user) | Q(visibility=PUBLIC))
+
+        return super(PhotoList, list).get_queryset()

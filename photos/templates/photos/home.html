@@ -6,6 +6,6 @@
     <p>Mi nombre es {{ user.first_name }} {{ user.last_name}}</p>
     {% if photos|length > 0 %}
         <h2>Latest photos</h2>
-        {% include "photos/photo_list.html" %}
+        {% include "photos/photo_section.html" %}
     {% endif %}
 {% endblock content %}

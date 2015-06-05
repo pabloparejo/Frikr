@@ -8,6 +8,6 @@ Hello {{ user.first_name }} {{ user.last_name}}
     <h2>Hello {{ user.first_name }} {{ user.last_name}}</h2>
     {% if photos|length > 0 %}
         <h3>Your photos</h3>
-        {% include "photos/photo_list.html" %}
+        {% include "photos/photo_section.html" %}
     {% endif %}
 {% endblock content %}
