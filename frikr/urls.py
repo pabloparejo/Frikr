@@ -22,4 +22,5 @@ urlpatterns = [
     url(r'^login/$', 'photos.views.login', name="login"),
     url(r'^logout/$', 'photos.views.logout', name="logout"),
     url(r'^photos/(?P<pk>[0-9]+)-(.*)/$', 'photos.views.photo_detail', name="photo_detail"),
+    url(r'^profile/$', 'photos.views.profile', name="profile"),
 ]

@@ -1,0 +1,13 @@
+{% extends 'photos/base.html' %}
+
+{% block title %}
+Hello {{ user.first_name }} {{ user.last_name}}
+{% endblock title %}
+
+{% block content %}
+    <h2>Hello {{ user.first_name }} {{ user.last_name}}</h2>
+    {% if photos|length > 0 %}
+        <h3>Your photos</h3>
+        {% include "photos/photo_list.html" %}
+    {% endif %}
+{% endblock content %}

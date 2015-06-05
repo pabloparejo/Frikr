@@ -1,8 +1,10 @@
 #encoding:utf-8
+from django.contrib.auth.decorators import login_required
 from django.http import HttpResponse, HttpResponseNotFound, HttpResponseRedirect
 from django.shortcuts import render, redirect
 
 from django.contrib.auth import logout as django_logout, login as django_login, authenticate
+from photos.forms import LoginForm
 
 from photos.models import Photo
 from frikr.settings import PUBLIC # this is not a good idea!
@@ -38,18 +40,29 @@ def photo_detail(request, pk):
     except Photo.DoesNotExist:
         return HttpResponseNotFound('Ooops! photo not found')
 
+@login_required(login_url="login")
+def profile(request):
+    context = {
+        "photos": request.user.photo_set.all()
+    }
+
+    return render(request, "photos/profile.html", context)
 
 def login(request):
-    context = {}
-    if request.method.upper() == "POST":
-        username = request.POST.get('username', None)
-        password = request.POST.get('password', None)
+    form = LoginForm(request.POST or None)
+    context = {
+        "form": form
+    }
+    if form.is_valid():
+        username = form.cleaned_data.get('username', None)
+        password = form.cleaned_data.get('password', None)
         user = authenticate(username=username, password=password)
 
         if user:
             if user.is_active:
                 django_login(request, user)
-                return redirect("home")
+                url = request.GET.get('next', 'profile')
+                return redirect(url)
             else:
                 context["errors"] = 'Su usuario no está activo'
         else:
@@ -61,4 +74,4 @@ def logout(request):
     if request.user.is_authenticated():
         django_logout(request)
 
-    return redirect("/")
+    return redirect("home")
