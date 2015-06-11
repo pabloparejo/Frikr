@@ -16,9 +16,16 @@ Including another URLconf
 from django.conf.urls import include, url
 from django.contrib import admin
 
-from photos import views
+from photos import views, api
 
 urlpatterns = [
+
+    # api urls
+    url(r'^api/1.0/users/$', api.UserListAPI.as_view(), name="user_list_api"),
+
+
+
+    # web urls
     url(r'^admin/', include(admin.site.urls)),
     url(r'^$', views.HomeView.as_view(), name="home"),
     url(r'^photos/$', views.PhotoList.as_view(), name="photo_list"),
