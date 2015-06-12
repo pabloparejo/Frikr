@@ -16,23 +16,11 @@ Including another URLconf
 from django.conf.urls import include, url
 from django.contrib import admin
 
-from photos import views, api
+import photos
 
 urlpatterns = [
 
-    # api urls
-    url(r'^api/1.0/users/$', api.UserListAPI.as_view(), name="user_list_api"),
-    url(r'^api/1.0/users/(?P<pk>[0-9]+)/$', api.UserDetailAPI.as_view(), name="user_detail_api"),
-
-
-
-    # web urls
     url(r'^admin/', include(admin.site.urls)),
-    url(r'^$', views.HomeView.as_view(), name="home"),
-    url(r'^photos/$', views.PhotoList.as_view(), name="photo_list"),
-    url(r'^photos/(?P<pk>[0-9]+)-(.*)/$', views.PhotoDetailView.as_view(), name="photo_detail"),
-    url(r'^add_photo/$', views.AddPhotoView.as_view(), name="add_photo"),
-    url(r'^login/$', views.LoginView.as_view(), name="login"),
-    url(r'^logout/$', views.LogoutView.as_view(), name="logout"),
-    url(r'^profile/$', views.ProfileView.as_view(), name="profile"),
+    url(r'^api/1.0/', include(photos.api_urls),),
+    url(r'', include(photos.urls),),
 ]
