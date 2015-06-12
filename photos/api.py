@@ -1,8 +1,10 @@
 #encoding:UTF-8
 from django.contrib.auth.models import User
 from django.shortcuts import get_object_or_404
-from serializers import UserSerializer
+from photos.models import Photo
+from serializers import UserSerializer, PhotoSerializer
 from rest_framework.views import APIView
+from rest_framework.generics import ListCreateAPIView, RetrieveUpdateDestroyAPIView
 from rest_framework.response import Response
 from rest_framework import status
 
@@ -43,3 +45,13 @@ class UserDetailAPI(APIView):
         user = get_object_or_404(User, pk=pk)
         user.delete()
         return Response(status=status.HTTP_204_NO_CONTENT)
+
+
+class PhotoListCreateAPI(ListCreateAPIView):
+    queryset = Photo.objects.all()
+    serializer_class = PhotoSerializer
+
+
+class PhotoDetailAPI(RetrieveUpdateDestroyAPIView):
+    queryset = Photo.objects.all()
+    serializer_class = PhotoSerializer

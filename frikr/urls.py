@@ -19,8 +19,8 @@ from django.contrib import admin
 import photos
 
 urlpatterns = [
-
     url(r'^admin/', include(admin.site.urls)),
-    url(r'^api/1.0/', include(photos.api_urls),),
     url(r'', include(photos.urls),),
+    url(r'^api/1.0/', include(photos.api_urls),),
 ]
+
