@@ -1,4 +1,5 @@
 #encoding:UTF-8
+from django.conf import settings
 from django.contrib.auth.hashers import make_password
 from django.contrib.auth.models import User
 from photos.models import Photo
@@ -34,9 +35,18 @@ class UserSerializer(serializers.Serializer):
 
         return instance
 
+
+BADWORDS = getattr(settings, 'BADWORDS', [])
 class PhotoSerializer(serializers.ModelSerializer):
     class Meta:
         model = Photo
+
+    def validate_description(self, description):
+        for badword in BADWORDS:
+            if badword.lower() in description.lower():
+                raise serializers.ValidationError(badword + u" IS NOT ALLOWED")
+
+        return description
 
 
 class PhotoListSerializer(PhotoSerializer):
