@@ -2,6 +2,8 @@
 from django.contrib.auth.models import User
 from django.shortcuts import get_object_or_404
 from photos.models import Photo
+from photos.permissions import UserPermission
+from rest_framework.permissions import IsAuthenticatedOrReadOnly
 from serializers import UserSerializer, PhotoSerializer, PhotoListSerializer
 from rest_framework.views import APIView
 from rest_framework.generics import ListCreateAPIView, RetrieveUpdateDestroyAPIView
@@ -10,6 +12,7 @@ from rest_framework import status
 
 
 class UserListAPI(APIView):
+    permission_classes = (UserPermission,)
 
     def get(self, request):
         users = User.objects.all()
@@ -27,13 +30,18 @@ class UserListAPI(APIView):
 
 
 class UserDetailAPI(APIView):
+
+    permission_classes = (UserPermission,)
+
     def get(self, request, pk):
         user = get_object_or_404(User, pk=pk)
+        self.check_object_permissions(request, user)
         serializer = UserSerializer(user)
         return Response(serializer.data)
 
     def put(self, request, pk):
         user = get_object_or_404(User, pk=pk)
+        self.check_object_permissions(request, user)
         serializer = UserSerializer(instance=user, data=request.data)
         if serializer.is_valid():
             serializer.save()
@@ -43,6 +51,7 @@ class UserDetailAPI(APIView):
 
     def delete(self, request, pk):
         user = get_object_or_404(User, pk=pk)
+        self.check_object_permissions(request, user)
         user.delete()
         return Response(status=status.HTTP_204_NO_CONTENT)
 
@@ -50,6 +59,7 @@ class UserDetailAPI(APIView):
 class PhotoListCreateAPI(ListCreateAPIView):
     queryset = Photo.objects.all()
     serializer_class = PhotoListSerializer
+    permission_classes = (IsAuthenticatedOrReadOnly,)
 
     def get_serializer_class(self):
         POST = (self.request.method.upper() == "POST")
@@ -60,3 +70,4 @@ class PhotoListCreateAPI(ListCreateAPIView):
 class PhotoDetailAPI(RetrieveUpdateDestroyAPIView):
     queryset = Photo.objects.all()
     serializer_class = PhotoSerializer
+    permission_classes = (IsAuthenticatedOrReadOnly,)
