@@ -16,15 +16,14 @@ class UserPermission(BasePermission):
         :param view:
         :return:
         """
-        from photos.api import UserDetailAPI
 
-        if request.method.upper() == "POST" and not request.user.is_authenticated():
+        if view.action.upper() == "POST" and not request.user.is_authenticated():
             return True
 
         elif request.user.is_superuser:
             return True
 
-        elif isinstance(view, UserDetailAPI):
+        elif view.action.upper() in ["RETRIEVE", "UPDATE", "DESTROY"]:
             return True
 
         return False

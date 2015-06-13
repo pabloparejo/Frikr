@@ -6,21 +6,20 @@ from photos.permissions import UserPermission
 from photos.views_queryset import PhotoQueryset
 from rest_framework.permissions import IsAuthenticatedOrReadOnly
 from serializers import UserSerializer, PhotoSerializer, PhotoListSerializer
-from rest_framework.views import APIView
-from rest_framework.generics import ListCreateAPIView, RetrieveUpdateDestroyAPIView
 from rest_framework.response import Response
-from rest_framework import status
+from rest_framework import status, viewsets
 
 
-class UserListAPI(APIView):
+
+class UserViewSet(viewsets.ViewSet):
     permission_classes = (UserPermission,)
 
-    def get(self, request):
+    def list(self, request):
         users = User.objects.all()
         serializer = UserSerializer(users, many=True)
         return Response(serializer.data)
 
-    def post(self, request):
+    def create(self, request):
         serializer = UserSerializer(data=request.data)
 
         if serializer.is_valid():
@@ -29,18 +28,14 @@ class UserListAPI(APIView):
         else:
             return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
-
-class UserDetailAPI(APIView):
-
-    permission_classes = (UserPermission,)
-
-    def get(self, request, pk):
+    # Detail
+    def retrieve(self, request, pk):
         user = get_object_or_404(User, pk=pk)
         self.check_object_permissions(request, user)
         serializer = UserSerializer(user)
         return Response(serializer.data)
 
-    def put(self, request, pk):
+    def update(self, request, pk):
         user = get_object_or_404(User, pk=pk)
         self.check_object_permissions(request, user)
         serializer = UserSerializer(instance=user, data=request.data)
@@ -50,31 +45,25 @@ class UserDetailAPI(APIView):
         else:
             return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
-    def delete(self, request, pk):
+    def destroy(self, request, pk):
         user = get_object_or_404(User, pk=pk)
         self.check_object_permissions(request, user)
         user.delete()
         return Response(status=status.HTTP_204_NO_CONTENT)
 
 
-class PhotoListCreateAPI(PhotoQueryset, ListCreateAPIView):
+
+
+class PhotoViewSet(PhotoQueryset, viewsets.ModelViewSet):
     queryset = Photo.objects.all()
-    serializer_class = PhotoListSerializer
     permission_classes = (IsAuthenticatedOrReadOnly,)
 
     def get_serializer_class(self):
-        POST = (self.request.method.upper() == "POST")
-        return PhotoSerializer if POST else PhotoListSerializer
+        LIST = (self.action.upper() == "LIST")
+        return PhotoListSerializer if LIST else PhotoSerializer
 
     def perform_create(self, serializer):
         """
         Tras validar datos, antes de guardar se llama a este método
         """
         serializer.save(owner=self.request.user)
-
-
-
-class PhotoDetailAPI(PhotoQueryset, RetrieveUpdateDestroyAPIView):
-    queryset = Photo.objects.all()
-    serializer_class = PhotoSerializer
-    permission_classes = (IsAuthenticatedOrReadOnly,)
