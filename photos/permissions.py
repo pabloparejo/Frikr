@@ -17,7 +17,10 @@ class UserPermission(BasePermission):
         :return:
         """
 
-        if view.action.upper() == "POST" and not request.user.is_authenticated():
+        if not view.action:
+            return True
+
+        elif view.action.upper() == "LIST" and not request.user.is_authenticated():
             return True
 
         elif request.user.is_superuser:

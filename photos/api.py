@@ -4,6 +4,7 @@ from django.shortcuts import get_object_or_404
 from photos.models import Photo
 from photos.permissions import UserPermission
 from photos.views_queryset import PhotoQueryset
+from rest_framework.filters import SearchFilter, OrderingFilter
 from rest_framework.permissions import IsAuthenticatedOrReadOnly
 from serializers import UserSerializer, PhotoSerializer, PhotoListSerializer
 from rest_framework.response import Response
@@ -65,6 +66,9 @@ class PhotoViewSet(PhotoQueryset, ListDetailViewSet, viewsets.ModelViewSet):
     list_serializer_class = PhotoListSerializer
     serializer_class = PhotoSerializer
     permission_classes = (IsAuthenticatedOrReadOnly,)
+    filter_backends = (SearchFilter, OrderingFilter)
+    ordering_fields = ('name', 'owner', 'created_on')
+    search_fields = ('name', 'description', 'owner__first_name', 'owner__last_name',)
 
     def perform_create(self, serializer):
         """
