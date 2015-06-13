@@ -40,7 +40,9 @@ INSTALLED_APPS = (
     'django.contrib.staticfiles',
     'rest_framework',
     'photos',
-    'frikr'
+    'frikr',
+    'files',
+    'djcelery'
 )
 
 MIDDLEWARE_CLASSES = (
@@ -151,5 +153,8 @@ REST_FRAMEWORK = {
         'rest_framework.renderers.BrowsableAPIRenderer',
         'rest_framework_xml.renderers.XMLRenderer',
     ),
-
 }
+
+# Celery config
+BROKER_URL = "amqp://guest:guest@localhost//"
+CELERI_IMPORTS = ['files.celery_tasks']

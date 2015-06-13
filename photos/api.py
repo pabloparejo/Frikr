@@ -9,7 +9,7 @@ from rest_framework.permissions import IsAuthenticatedOrReadOnly
 from serializers import UserSerializer, PhotoSerializer, PhotoListSerializer
 from rest_framework.response import Response
 from rest_framework import status, viewsets
-
+from celery_tasks import download_file
 
 
 class UserViewSet(viewsets.ViewSet):
@@ -74,4 +74,5 @@ class PhotoViewSet(PhotoQueryset, ListDetailViewSet, viewsets.ModelViewSet):
         """
         Tras validar datos, antes de guardar se llama a este método
         """
+        download_file.delay(serializer.validated_data.get('url',''), serializer.validated_data.get('name', 'def'))
         serializer.save(owner=self.request.user)
