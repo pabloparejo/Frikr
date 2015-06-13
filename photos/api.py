@@ -3,6 +3,7 @@ from django.contrib.auth.models import User
 from django.shortcuts import get_object_or_404
 from photos.models import Photo
 from photos.permissions import UserPermission
+from photos.views_queryset import PhotoQueryset
 from rest_framework.permissions import IsAuthenticatedOrReadOnly
 from serializers import UserSerializer, PhotoSerializer, PhotoListSerializer
 from rest_framework.views import APIView
@@ -56,7 +57,7 @@ class UserDetailAPI(APIView):
         return Response(status=status.HTTP_204_NO_CONTENT)
 
 
-class PhotoListCreateAPI(ListCreateAPIView):
+class PhotoListCreateAPI(PhotoQueryset, ListCreateAPIView):
     queryset = Photo.objects.all()
     serializer_class = PhotoListSerializer
     permission_classes = (IsAuthenticatedOrReadOnly,)
@@ -65,9 +66,15 @@ class PhotoListCreateAPI(ListCreateAPIView):
         POST = (self.request.method.upper() == "POST")
         return PhotoSerializer if POST else PhotoListSerializer
 
+    def perform_create(self, serializer):
+        """
+        Tras validar datos, antes de guardar se llama a este método
+        """
+        serializer.save(owner=self.request.user)
 
 
-class PhotoDetailAPI(RetrieveUpdateDestroyAPIView):
+
+class PhotoDetailAPI(PhotoQueryset, RetrieveUpdateDestroyAPIView):
     queryset = Photo.objects.all()
     serializer_class = PhotoSerializer
     permission_classes = (IsAuthenticatedOrReadOnly,)

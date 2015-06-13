@@ -14,6 +14,7 @@ from django.views.generic import View, ListView
 from photos.models import Photo
 from frikr.settings import PUBLIC # this is not a good idea!
 # Create your views here.
+from photos.views_queryset import PhotoQueryset
 
 
 class HomeView(View):
@@ -129,19 +130,5 @@ class LoginView(View):
 
         return render(request, "photos/login.html", context)
 
-
-class PhotoList(ListView):
-
+class PhotoList(PhotoQueryset, ListView):
     model = Photo
-
-    def get_queryset(self):
-        user = self.request.user
-
-        if user.is_anonymous():
-            return Photo.objects.filter(visibility=PUBLIC)
-        elif user.is_staff:
-            return Photo.objects.all()
-        else:
-            return Photo.objects.filter(Q(owner=user) | Q(visibility=PUBLIC))
-
-        return super(PhotoList, list).get_queryset()

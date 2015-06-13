@@ -136,3 +136,9 @@ DEFAULT_VISIBILITY = PUBLIC
 
 # from http://goo.gl/G2nCu7
 BADWORDS = (u"Abollao", u"Abrazafarolas", u"Afilasables", u"Analfabestia", u"Apollardao", u"Arrastramantas", u"Arrollapastos", u"Asaltapozos", u"Asustatrenes", u"Bailaferias", u"Bebecharcos", u"Bobolaverga", u"Bolascombro", u"Cabezabuque", u"Cabezakiko", u"Cabezantorcha", u"Cagaestacas", u"Cagaportales", u"Cansaliebres", u"Cantamañanas", u"Caracartón", u"Carachancla", u"Caraespátula", u"Caraestaca ", u"Carahogaza", u"Carajaula", u"Caranabo", u"Carapan", u"Carasapo", u"Carasuela", u"Cazurro", u"Cebollino", u"Cenutrio", u"Ceporro", u"Chafacharcos", u"Chimpamonas", u"Chupaescrotos", u"Cierrabares", u"Cuerpoescombro", u"Culoalberca", u"Descosealpargatas", u"Desbaratabailes", u"Empaellao", u"Empanao", u"Enderezaplátanos", u"Esgarramantas", u"Feodoble", u"Follacabras", u"Follácaros", u"Gilipipas", u"Huelebragas", u"Lechuguino", u"Limpiatubos", u"Mamahostias", u"Mangurrián", u"Mascachapas", u"Masturbamulos", u"Masturbaperros", u"Masturbavacas", u"Mataperros", u"Meapilas", u"Membrillo", u"Mierdaseca", u"Morroesfinge", u"Morroperca", u"Morroputa", u"Muerdealmohadas", u"Pataliebre", u"Pecholata", u"Pechopértiga ", u"Peinabombillas", u"Peinaburras", u"Pelabombillas", u"Pelagatos", u"Pelandrusca", u"Pelarrabos", u"Pellizcacristales", u"Perroflauta", u"Pinchacolillas", u"Pisapedales", u"Pudrecolchones", u"Putapénico", u"Pánfilo", u"Saltacequias", u"Sietemesino", u"Soplanucas", u"Soplasartenes", u"Tarambana", u"Tolai", u"Tontol\'lápiz", u"Tontolaba", u"Tontoligo", u"Tontoloscojones", u"Tontopolla", u"Tontoprofundo", u"Tragaldabas", u"Tragalpacas", u"Tuercebotas", u"Vuelcalitros", u"Zanahorio", u"Zarandajo", u"Zarrapastroso", u"Zopenco", u"Zurremierdas", )
+
+REST_FRAMEWORK = {
+    "PAGINATE_BY": 3,
+    "PAGINATE_BY_PARAM": "page_size",
+    "MAX_PAGINATE_BY": 100
+}
