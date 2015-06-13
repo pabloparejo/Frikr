@@ -52,15 +52,19 @@ class UserViewSet(viewsets.ViewSet):
         return Response(status=status.HTTP_204_NO_CONTENT)
 
 
-
-
-class PhotoViewSet(PhotoQueryset, viewsets.ModelViewSet):
-    queryset = Photo.objects.all()
-    permission_classes = (IsAuthenticatedOrReadOnly,)
+class ListDetailViewSet(object):
+    list_serializer_class = None
 
     def get_serializer_class(self):
         LIST = (self.action.upper() == "LIST")
-        return PhotoListSerializer if LIST else PhotoSerializer
+        return self.list_serializer_class if LIST else self.serializer_class
+
+
+class PhotoViewSet(PhotoQueryset, ListDetailViewSet, viewsets.ModelViewSet):
+    queryset = Photo.objects.all()
+    list_serializer_class = PhotoListSerializer
+    serializer_class = PhotoSerializer
+    permission_classes = (IsAuthenticatedOrReadOnly,)
 
     def perform_create(self, serializer):
         """
